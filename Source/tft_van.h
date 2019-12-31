@@ -8,6 +8,8 @@
 #include "settings.h"
 
 
+const char compile_date[] = __DATE__ " " __TIME__;
+
 class tft_van : public  Adafruit_ST7735
 {
   public:
@@ -17,15 +19,26 @@ class tft_van : public  Adafruit_ST7735
     // Methods
     void initBatteryInfoScreen(byte isStarterBatt);
     void updateBatteryInfo(batteryInfo*);
-    void initStartupScreen();
+    void initInfoScreen(); // this function is for setting up position of pixels etc..
     void updateStartupScreen();
+    void initSetupScreen();
     void displayCarInfo() {}   
   
   // Private methods and variables
   private:
     void drawTxt(bool isInit, float u, int soh, float cap, float temp);
+    void drawAmpOld(float amp);
     void drawAmp(float amp);
-    void drawAkku(int cap, int ti, int calib);
+    void drawAkkuOld(int cap, int ti, int calib);
+    void drawAkku(int cap);
+
+
+
+    // coordinates for screen setup
+    byte x0 = 0;
+    byte y0 = 27;
+    byte w = 135;
+    byte h = 85;
 
     
 };

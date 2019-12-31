@@ -36,7 +36,7 @@ lin_ibs LIN2_Living(LinCh2);
 tft_van tft;
 
 // UserButton for switching screens
-const int buttonPin = 55; // big button on bottom // 56 --> Left Buttons // 54 --> Right Buttons
+const int buttonPin = 55; // 55 --> big button on bottom // 56 --> Left Buttons // 54 --> Right Buttons
 
 /**********************/
 // Definition of info and state variables
@@ -58,7 +58,7 @@ void setup()
   tft.initR(INITR_BLACKTAB);   // initialize a ST7735S chip, black tab
   tft.setRotation(3);
   tft.fillScreen(ST7735_BLACK);
-  //tft.initStartupScreen();
+  
   
   // Initialize LIN interfaces
   lin_ibs LIN1_Starter(LinCh1);
@@ -68,7 +68,8 @@ void setup()
   Serial.begin(9600);
  
   pinMode(buttonPin, INPUT);
-  pinMode(12, OUTPUT);
+
+  tft.initBatteryInfoScreen(0);
   
   // set battery configuration
   //LIN1_Starter.sendConfiguration(1, 95);
@@ -87,13 +88,6 @@ void loop() {
   runDisplayStateMachine();  
 
   delay(66);
-
-  Serial.print(batteryInfoStarter.cntRecvInvalidMsgs);
-  Serial.print("\n");
-
-  Serial.print(batteryInfoLiving.cntRecvInvalidMsgs);
-  Serial.print("\n");
-
 
 }
 
@@ -120,26 +114,26 @@ void runDisplayStateMachine()
       tft.updateStartupScreen();
       //LIN2_Living.sendConfiguration(1, 55);
       if( isButtonNextPushed() ) {
-        tft.initBatteryInfoScreen(1);
-        state = ST_BATT_STARTER;
+        tft.initBatteryInfoScreen(0);
+        state = ST_BATT_LIVING;
         Serial.write("ST_INIT\n");
       }
       break;
  
-    case ST_BATT_STARTER:
+    case ST_BATT_LIVING:
       tft.updateBatteryInfo(&batteryInfoStarter);
       if( isButtonNextPushed() ) {
-        tft.initBatteryInfoScreen(0);
-        state = ST_BATT_LIVING;
+        tft.initBatteryInfoScreen(1);
+        state = ST_BATT_STARTER;
         Serial.write("ST_BATT_STARTER\n");
       }
       break;
  
-    case ST_BATT_LIVING:
+    case ST_BATT_STARTER:
       tft.updateBatteryInfo(&batteryInfoLiving);
       if( isButtonNextPushed() ) {
         state = ST_INIT;
-        tft.initStartupScreen();
+        tft.initInfoScreen();
         Serial.write("ST_BATT_LIVING\n");
       }
       break;
@@ -147,7 +141,7 @@ void runDisplayStateMachine()
     case ST_CAR_INFO:
       if( isButtonNextPushed() ) {
         state = ST_INIT;
-        tft.initStartupScreen();
+        tft.initBatteryInfoScreen(0);
         Serial.write("ST_CAR_INFO\n");
       }
       break;

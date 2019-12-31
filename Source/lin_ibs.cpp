@@ -7,7 +7,6 @@ byte lin_ibs::readBatteryValues(batteryInfo* battInfo)
   if ( !readFrame1(battInfo) || !readFrame2(battInfo) || !readFrame3(battInfo)) 
   {    
     battInfo->cntRecvInvalidMsgs++;
-    Serial.print("\n -- INVALID -- \n");
     if ( battInfo->cntRecvInvalidMsgs > MAX_ERROR_MSG_COUNT)
       battInfo->cntRecvInvalidMsgs = MAX_ERROR_MSG_COUNT;
     // possibly bus is sleeping, try to wake up ...

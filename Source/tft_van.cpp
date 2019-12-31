@@ -1,25 +1,163 @@
 #include "tft_van.h"
 
 
-void tft_van::initStartupScreen()
+void tft_van::initInfoScreen()
 {
 
   this->fillScreen(ST7735_BLACK);
-  this->setTextColor(ST7735_WHITE, ST7735_BLACK);
-  this->setCursor(1, 40);
+  this->setTextColor(ST7735_BLUE, ST7735_BLACK);
+  this->setCursor(1, 33);
   this->print("MEMO ");
 
   this->setCursor(1, 50);
-  this->print("Multivan Energy Monitor");
+  this->print("M");
+  this->setTextColor(ST7735_WHITE, ST7735_BLACK);
+  this->print("ultivan ");
+  this->setTextColor(ST7735_BLUE, ST7735_BLACK);
+  this->print("E");
+  this->setTextColor(ST7735_WHITE, ST7735_BLACK);
+  this->print("nergy ");
+  this->setTextColor(ST7735_BLUE, ST7735_BLACK);
+  this->print("Mo");
+  this->setTextColor(ST7735_WHITE, ST7735_BLACK);
+  this->print("nitor");  
 
-    this->setCursor(1, 60);
-  this->print("Build-Date: 12/19");
 
-   this->setCursor(1, 90);
+  this->setTextColor(ST7735_WHITE, ST7735_BLACK);
+  this->setCursor(1, 75);
+  this->print("Build-Date:\n");
+  this->print(compile_date);
+
+   this->setCursor(1, 95);
   this->print("by duronflo@web.de");
 }
 
+void tft_van::initSetupScreen()
+{
 
+// Absolute Koordinaten
+/*
+ * X0 0
+ * X1 135
+ * 
+ * Y0 27
+ * Y1 107
+ */
+
+ byte isStarterBatt = 1;
+
+  byte x0 = 0;
+  byte y0 = 27;
+  byte w = 135;
+  byte h = 85;
+
+  this->setTextColor(ST7735_WHITE, ST7735_BLACK);
+  this->setCursor(x0, y0+5);
+  if (isStarterBatt)
+    this->print("STARTER");
+  else
+    this->print("WOHNEN");
+
+
+
+  this->fillRect(x0+2, y0+18, 30, 60, ST7735_WHITE);
+  // Kappe
+  this->fillRect(x0+7, y0+15, 20, 60, ST7735_WHITE);
+  
+  // SoC Text
+  this->setTextColor(ST7735_BLUE, ST7735_WHITE);
+  this->setCursor(x0+7, y0+69);
+  this->print("99%");
+
+  // SoC Bars
+  this->fillRect(x0 + 4, y0+19 , 26, 5, ST7735_GREEN);
+  this->fillRect(x0 + 4, y0+26, 26, 5, ST7735_GREEN);
+  this->fillRect(x0 + 4, y0+33, 26, 5, ST7735_GREEN);
+  this->fillRect(x0 + 4, y0+40, 26, 5, ST7735_GREEN);
+  this->fillRect(x0 + 4, y0+47, 26, 5, ST7735_GREEN);  
+  this->fillRect(x0 + 4, y0+54, 26, 5, ST7735_GREEN);  
+  this->fillRect(x0 + 4, y0+61, 26, 5, ST7735_GREEN);  
+
+
+ // Boxes for Text #### MIDDLE
+  byte x1 = x0 + (w/2) - 20 ;
+  byte y1 = y0 + 4;
+  this->fillRect(x1, y1, 44, 24, ST7735_WHITE);
+  this->fillRect(x1, y1 + 28, 44, 24, ST7735_WHITE);
+  this->fillRect(x1, y1 + 56, 44, 24, ST7735_WHITE);
+  this->setTextColor(ST7735_BLACK, ST7735_WHITE);
+  this->setCursor(x1 + 9, y1 + 2);
+  this->print("UBat");
+  this->setCursor(x1 + 9, y1 + 13);
+  this->print("12.5V");
+  this->setCursor(x1 + 12, y1 + 30);
+  this->print("SoH");
+  this->setCursor(x1 + 12, y1 + 41);
+  this->print("100%");
+  this->setCursor(x1 + 12, y1 + 58);
+  this->print("Temp");
+  this->setCursor(x1 + 8, y1 + 69);
+  this->print("28 C");
+
+
+//  // Boxes for Text #### LAST ROW
+//  x1 = x0 + (3*w/4) - 7 ;
+//  y1 = y0 + 4;
+//  this->fillRect(x1, y1, 44, 24, ST7735_WHITE);
+//  this->setTextColor(ST7735_BLACK, ST7735_WHITE);
+//  this->setCursor(x1 + 9, y1 + 2);
+//  this->print("Ibat");
+//  this->setTextColor(ST7735_RED, ST7735_WHITE);
+//  this->setCursor(x1 + 9, y1 + 13);
+//  this->print("-5.4A");
+
+
+//  // Boxes for Text #### FIRST ROW
+//  byte x1 = x0 ;
+//  byte y1 = y0 + 4;
+//  this->fillRect(x1, y1 + 56, 44, 24, ST7735_WHITE);
+//  this->setTextColor(ST7735_BLACK, ST7735_WHITE);
+//  this->setCursor(x1 + 12, y1 + 58);
+//  this->print("SoC");
+//
+//  this->setCursor(x1 + 12, y1 + 69);
+//  this->print("50%");
+
+
+  this->fillRect(x0+130, y0 + 5, 5, 60, ST7735_WHITE);
+  //fat lines
+  this->drawLine(x0+130 - 9, y0 + 5, x0+130, y0 + 5, ST7735_WHITE);
+  this->drawLine(x0+130 - 12, y0 + 5 + 30, x0+130, y0 + 5 + 30, ST7735_WHITE);
+  this->drawLine(x0+130 - 9, y0 + 5 + 59, x0+130, y0 + 5 + 59, ST7735_WHITE);
+  // thin lines
+  this->drawLine(x0+130 - 5, y0 + 5 + 15, x0+130, y0 + 5 + 15, ST7735_WHITE);
+  this->drawLine(x0+130 - 5, y0 + 5 + 45, x0+130, y0 + 5 + 45, ST7735_WHITE);
+
+  //middle
+  this->setTextColor(ST7735_WHITE, ST7735_BLACK);
+  this->setCursor(x0+130 - 25, y0 + 5 + 27);
+  this->print("0A");
+
+  //top
+  this->setTextColor(ST7735_WHITE, ST7735_BLACK);
+  this->setCursor(x0+130 - 31, y0 + 5);
+  this->print("+5A");
+
+  //bottom
+  this->setTextColor(ST7735_WHITE, ST7735_BLACK);
+  this->setCursor(x0+130 - 31, y0 + 5 + 53);
+  this->print("-5A");
+
+  // Boxes for Text #### LAST ROW
+  this->setTextColor(ST7735_GREEN, ST7735_BLACK);
+  this->setCursor(x0 + 105, y0 + 71);
+  this->print("+3.0A");
+
+  // Boxes for Text #### LAST ROW
+  this->fillRect(x0+126, y0 + 5 + 56, 9, 4, ST7735_GREEN);
+
+
+}
 
 void tft_van::updateStartupScreen()
 {
@@ -29,13 +167,13 @@ void tft_van::updateBatteryInfo(batteryInfo* battInfo)
 {
   if (battInfo->isBatteryInfoValid)
   {
-    drawAkku(battInfo->SoC, 0, 1);
+    drawAkku(battInfo->SoC);
     drawAmp(battInfo->I_Current);
     drawTxt(0, battInfo->U_Voltage, battInfo->SoH, battInfo->availCap, battInfo->batteryTemp);    
   }
   else 
   {
-    drawAkku(0, 0, 1);
+    drawAkku(0);
     drawAmp(0);
     drawTxt(1,0,0,0,0);    
   }
@@ -46,259 +184,441 @@ void tft_van::initBatteryInfoScreen(byte isStarterBatt) {
 
   this->fillScreen(ST7735_BLACK);
 
-  // Akku
-  int x = XAKK; // 15
-  int y = YAKK; // 20
 
-  //this->fillRect(x, y + 13, 40, 74, ST7735_WHITE);
-  this->fillRect(x, y, 30, 60, ST7735_WHITE);
-  
-  // Batteriekappe
-  //this->fillRect(x + 10, y + 6, 20, 7, ST7735_WHITE);
-  //this->fillRect(x + 15, y + 1, 10, 5, ST7735_WHITE);
 
-  
+/// TEXT Starter or Wohnen which indictes the sensor
   this->setTextColor(ST7735_WHITE, ST7735_BLACK);
-  this->setCursor(x, y - 10);
+  this->setCursor(x0, y0+5);
   if (isStarterBatt)
-    this->print("Starter");
+    this->print("STARTER");
   else
-    this->print("Wohnen");
-
-  // Amperemeter
-  x = XAMP;
-  y = YAMP;
-
-  this->fillRect(x, y + 3, 10, 85, ST7735_WHITE);
-  this->drawLine(x + 10, y + 5, x + 20, y + 5, ST7735_WHITE);
-  this->drawLine(x + 10, y + 25, x + 20, y + 25, ST7735_WHITE);
-  this->drawLine(x + 10, y + 66, x + 20, y + 66, ST7735_WHITE);
-  this->drawLine(x + 10, y + 86, x + 20, y + 86, ST7735_WHITE);
-  this->drawLine(x + 10, y + 15, x + 15, y + 15, ST7735_WHITE);
-  this->drawLine(x + 10, y + 35, x + 15, y + 35, ST7735_WHITE);
-  this->drawLine(x + 10, y + 56, x + 15, y + 56, ST7735_WHITE);
-  this->drawLine(x + 10, y + 76, x + 15, y + 76, ST7735_WHITE);
-  this->drawLine(x + 10, y + 46, x + 25, y + 46, ST7735_WHITE);
+    this->print("WOHNEN");
 
 
+  // Draw Battery
+  this->fillRect(x0+2, y0+18, 30, 60, ST7735_WHITE);
+  // Batterycape
+  this->fillRect(x0+7, y0+15, 20, 60, ST7735_WHITE);
+  
 
-  // Werte
-  x = XTEX;
-  y = YTEX;
 
-  this->fillRect(x, y, 44, 24, ST7735_WHITE);
-  this->fillRect(x, y + 28, 44, 24, ST7735_WHITE);
-  this->fillRect(x, y + 56, 44, 24, ST7735_WHITE);
-  this->fillRect(x, y + 84, 44, 24, ST7735_WHITE);
-  this->setTextColor(ST7735_BLACK, ST7735_WHITE);
-  this->setCursor(x + 9, y + 2);
-  this->print("UBat:");
-  this->setCursor(x + 12, y + 30);
-  this->print("SOH:");
-  this->setCursor(x + 4, y + 58);
-  this->print("Capac.");
-  this->setCursor(x + 7, y + 86);
-  this->print("Temp.");
+ // Text Boxes in the middle of the screen
+  byte x1 = x0 + (w/2) - 20 ;
+  byte y1 = y0 + 4;
+  this->fillRect(x1, y1, 44, 24, ST7735_WHITE);
+  this->fillRect(x1, y1 + 28, 44, 24, ST7735_WHITE);
+  this->fillRect(x1, y1 + 56, 44, 24, ST7735_WHITE);
+
+
+/// Draw Ampere meter ...
+
+  this->fillRect(x0+130, y0 + 5, 5, 60, ST7735_WHITE);
+  //fat lines
+  this->drawLine(x0+130 - 9, y0 + 5, x0+130, y0 + 5, ST7735_WHITE);
+  this->drawLine(x0+130 - 12, y0 + 5 + 30, x0+130, y0 + 5 + 30, ST7735_WHITE);
+  this->drawLine(x0+130 - 9, y0 + 5 + 59, x0+130, y0 + 5 + 59, ST7735_WHITE);
+  // thin lines
+  this->drawLine(x0+130 - 5, y0 + 5 + 15, x0+130, y0 + 5 + 15, ST7735_WHITE);
+  this->drawLine(x0+130 - 5, y0 + 5 + 45, x0+130, y0 + 5 + 45, ST7735_WHITE);
+
 }
 
-void tft_van::drawTxt(bool isInit, float u, int soh, float cap, float temp) {
 
-  int x = XTEX;
-  int y = YTEX;
+void tft_van::drawTxt(bool isInit, float u, int soh, float soc, float temp) {
+
+  byte x1 = x0 + (w/2) - 20 ;
+  byte y1 = y0 + 4;
+
   
   if (isInit)
   {
     this->setTextColor(ST7735_BLACK, ST7735_WHITE);
-    this->setCursor(x + 3, y + 13);
-    this->print("--");
-    this->print("V");
-  
-    this->setCursor(x + 12, y + 41);
-    this->print("--");
-    this->print(" %");
-  
-    this->setCursor(x + 4, y + 69);
-    this->print("--");
-    this->print("Ah");
-  
-    this->setCursor(x + 4, y + 97);
-    this->print("--");
-    this->print(" C");    
+    this->setCursor(x1 + 9, y1 + 2);
+    this->print("UBat");
+    this->setCursor(x1 + 9, y1 + 13);
+    this->print("---");
+    this->setCursor(x1 + 12, y1 + 30);
+    this->print("SoH");
+    this->setCursor(x1 + 12, y1 + 41);
+    this->print("---");
+    this->setCursor(x1 + 12, y1 + 58);
+    this->print("Temp");
+    this->setCursor(x1 + 8, y1 + 69);
+    this->print("---");   
   }
   else 
   {
     this->setTextColor(ST7735_BLACK, ST7735_WHITE);
-    this->setCursor(x + 3, y + 13);
-    this->print(u, 2);
+    this->setCursor(x1 + 9, y1 + 2);
+    this->print("UBat");
+    this->setCursor(x1 + 6, y1 + 13);
+    this->print(u);
     this->print("V");
-  
-    this->setCursor(x + 12, y + 41);
-    this->print(soh);
-    this->print(" %");
-  
-    this->setCursor(x + 4, y + 69);
-    this->print(cap, 1);
-    this->print("Ah");
-  
-    this->setCursor(x + 4, y + 97);
-    this->print(temp, 1);
-    this->print(" C");    
+    this->setCursor(x1 + 12, y1 + 30);
+    this->print("SoH");
+    this->setCursor(x1 + 12, y1 + 41);
+    this->print(round(soh));
+    this->print("%");
+    this->setCursor(x1 + 12, y1 + 58);
+    this->print("Temp");
+    this->setCursor(x1 + 10, y1 + 69);
+    this->print(round(temp));
+    this->print(" C");
   }
 
 
 }
 
 
-void tft_van::drawAmp(float amp) {
+void tft_van::drawAmp(float amp) 
+{
 
+  float absCurrent;
+  bool isCharging = false;
+  absCurrent = abs(amp);
+  if (amp > 0)
+  {
+    isCharging = true;
+  }
+  if (absCurrent <= 5)
+  {
+    //middle
+    this->setTextColor(ST7735_WHITE, ST7735_BLACK);
+    this->setCursor(x0+130 - 25, y0 + 5 + 27);
+    this->print("0A");
+  
+    //top
+    this->setTextColor(ST7735_WHITE, ST7735_BLACK);
+    this->setCursor(x0+130 - 31, y0 + 5);
+    this->print("-5A");
+  
+    //bottom
+    this->setTextColor(ST7735_WHITE, ST7735_BLACK);
+    this->setCursor(x0+130 - 31, y0 + 5 + 53);
+    this->print("+5A");
+  
+    // Boxes for Text #### LAST ROW
 
-  boolean laden = true;
-  int x = XAMP;
-  int y = YAMP;
-  int ix;
-  float strom;
-
-  strom = amp;
-  if (strom < 0) {
-    strom = strom * -1;
-    laden = false;
+    this->fillRect(x0+130, y0 + 5, 5, 60, ST7735_WHITE);  
+    // Indicator on amp meter which is GREEN for charging and RED for discharging
+    if (isCharging)
+    {
+      byte y1 = 30 + 6*absCurrent;
+      this->fillRect(x0+130, y0 + 5 + y1, 5, 3, ST7735_GREEN);  
+      
+      // clean rect for proper and plain overprinting 
+      this->setCursor(x0 + 98, y0 + 71);
+      this->setTextColor(ST7735_BLACK);
+      this->setTextColor(ST7735_GREEN, ST7735_BLACK);
+      this->print(amp,2);
+      this->print("A");
+    }
+      
+    else
+    {
+      byte y1 = 30 - 6*absCurrent;
+      this->fillRect(x0+130, y0 + 5 + y1, 5, 3, ST7735_RED);
+      
+      // clean rect for proper and plain overprinting 
+      this->setCursor(x0 + 98, y0 + 71);
+      this->setTextColor(ST7735_BLACK);
+      this->setTextColor(ST7735_RED, ST7735_BLACK);
+      this->print(amp,2);
+      this->print("A");
+    }
+       
   }
 
-  if (strom > 500) {
-    return;
+  else if (absCurrent <= 10)
+  {
+    //middle
+    this->setTextColor(ST7735_WHITE, ST7735_BLACK);
+    this->setCursor(x0+130 - 25, y0 + 5 + 27);
+    this->print("0A");
+  
+    //top
+    this->setTextColor(ST7735_WHITE, ST7735_BLACK);
+    this->setCursor(x0+130 - 31, y0 + 5);
+    this->print("-10A");
+  
+    //bottom
+    this->setTextColor(ST7735_WHITE, ST7735_BLACK);
+    this->setCursor(x0+130 - 31, y0 + 5 + 53);
+    this->print("+10A");
+  
+    // Boxes for Text #### LAST ROW
+
+    this->fillRect(x0+130, y0 + 5, 5, 60, ST7735_WHITE);  
+    // Indicator on amp meter which is GREEN for charging and RED for discharging
+    if (isCharging)
+    {
+      byte y1 = 30 + 3*absCurrent;
+      this->fillRect(x0+130, y0 + 5 + y1, 5, 3, ST7735_GREEN);  
+      
+      // clean rect for proper and plain overprinting 
+      this->setCursor(x0 + 98, y0 + 71);
+      this->setTextColor(ST7735_BLACK);
+      this->setTextColor(ST7735_GREEN, ST7735_BLACK);
+      this->print(amp,1);
+      this->print("A");
+    }
+      
+    else
+    {
+      byte y1 = 30 - 3*absCurrent;
+      this->fillRect(x0+130, y0 + 5 + y1, 5, 3, ST7735_RED);
+      
+      // clean rect for proper and plain overprinting 
+      this->setCursor(x0 + 98, y0 + 71);
+      this->setTextColor(ST7735_BLACK);
+      this->setTextColor(ST7735_RED, ST7735_BLACK);
+      this->print(amp,1);
+      this->print("A");
+    }
+       
+  }
+  else if (absCurrent <= 30)
+  {
+    //middle
+    this->setTextColor(ST7735_WHITE, ST7735_BLACK);
+    this->setCursor(x0+130 - 25, y0 + 5 + 27);
+    this->print("0A");
+  
+    //top
+    this->setTextColor(ST7735_WHITE, ST7735_BLACK);
+    this->setCursor(x0+130 - 31, y0 + 5);
+    this->print("-30A");
+  
+    //bottom
+    this->setTextColor(ST7735_WHITE, ST7735_BLACK);
+    this->setCursor(x0+130 - 31, y0 + 5 + 53);
+    this->print("+30A");
+  
+    // Boxes for Text #### LAST ROW
+
+    this->fillRect(x0+130, y0 + 5, 5, 60, ST7735_WHITE);  
+    // Indicator on amp meter which is GREEN for charging and RED for discharging
+    if (isCharging)
+    {
+      byte y1 = 30 + 1*absCurrent;
+      this->fillRect(x0+130, y0 + 5 + y1, 5, 3, ST7735_GREEN);  
+      
+      // clean rect for proper and plain overprinting 
+      this->setCursor(x0 + 98, y0 + 71);
+      this->setTextColor(ST7735_BLACK);
+      this->setTextColor(ST7735_GREEN, ST7735_BLACK);
+      this->print(amp,1);
+      this->print("A");
+    }
+      
+    else
+    {
+      byte y1 = 30 - 1*absCurrent;
+      this->fillRect(x0+130, y0 + 5 + y1, 5, 3, ST7735_RED);
+      
+      // clean rect for proper and plain overprinting 
+      this->setCursor(x0 + 98, y0 + 71);
+      this->setTextColor(ST7735_BLACK);
+      this->setTextColor(ST7735_RED, ST7735_BLACK);
+      this->print(amp,1);
+      this->print("A");
+    }
+       
   }
 
-  if (strom <= 2) {
+  else if (absCurrent <= 60)
+  {
+    //middle
     this->setTextColor(ST7735_WHITE, ST7735_BLACK);
-    this->setCursor(x + 30, y + 20);
-    this->print("1  ");
-    this->setCursor(x + 30, y + 1);
-    this->print("2  ");
-    this->setCursor(x + 30, y + 62);
-    this->print("1  ");
-    this->setCursor(x + 30, y + 82);
-    this->print("2  ");
-    ix = int(strom * 20);
+    this->setCursor(x0+130 - 25, y0 + 5 + 27);
+    this->print("0A");
+  
+    //top
+    this->setTextColor(ST7735_WHITE, ST7735_BLACK);
+    this->setCursor(x0+130 - 31, y0 + 5);
+    this->print("-60A");
+  
+    //bottom
+    this->setTextColor(ST7735_WHITE, ST7735_BLACK);
+    this->setCursor(x0+130 - 31, y0 + 5 + 53);
+    this->print("+60A");
+  
+    // Boxes for Text #### LAST ROW
 
-    if (ix > 40) {
-      ix = 40;
+    this->fillRect(x0+130, y0 + 5, 5, 60, ST7735_WHITE);  
+    // Indicator on amp meter which is GREEN for charging and RED for discharging
+    if (isCharging)
+    {
+      byte y1 = 30 + 0.5*absCurrent;
+      this->fillRect(x0+130, y0 + 5 + y1, 5, 3, ST7735_GREEN);  
+      
+      // clean rect for proper and plain overprinting 
+      this->setCursor(x0 + 98, y0 + 71);
+      this->setTextColor(ST7735_BLACK);
+      this->setTextColor(ST7735_GREEN, ST7735_BLACK);
+      this->print(amp,1);
+      this->print("A");
     }
-    if (laden) {
-      this->fillRect(x, y + 3, 10, 85, ST7735_WHITE);
-      this->fillRect(x, y + 43 + ix, 10, 5, ST7735_GREEN);
-    }  else {
-      this->fillRect(x, y + 3, 10, 85, ST7735_WHITE);
-      this->fillRect(x, y + 43 - ix, 10, 5, ST7735_RED);
+      
+    else
+    {
+      byte y1 = 30 - 0.5*absCurrent;
+      this->fillRect(x0+130, y0 + 5 + y1, 5, 3, ST7735_RED);
+      
+      // clean rect for proper and plain overprinting 
+      this->setCursor(x0 + 98, y0 + 71);
+      this->setTextColor(ST7735_BLACK);
+      this->setTextColor(ST7735_RED, ST7735_BLACK);
+      this->print(amp,1);
+      this->print("A");
     }
-  } else if ((strom > 2) & (strom <= 20)) {
-    this->setTextColor(ST7735_WHITE, ST7735_BLACK);
-    this->setCursor(x + 30, y + 20);
-    this->print("10 ");
-    this->setCursor(x + 30, y + 1);
-    this->print("20 ");
-    this->setCursor(x + 30, y + 62);
-    this->print("10 ");
-    this->setCursor(x + 30, y + 82);
-    this->print("20 ");
-    ix = int(strom * 2);
-    if (ix > 40) {
-      ix = 40;
-    }
-    if (laden) {
-      this->fillRect(x, y + 3, 10, 85, ST7735_WHITE);
-      this->fillRect(x, y + 43 + ix, 10, 5, ST7735_GREEN);
-    }  else {
-      this->fillRect(x, y + 3, 10, 85, ST7735_WHITE);
-      this->fillRect(x, y + 43 - ix, 10, 5, ST7735_RED);
-    }
-  } else if (strom > 20) {
-    this->setTextColor(ST7735_WHITE, ST7735_BLACK);
-    this->setCursor(x + 30, y + 20);
-    this->print("100");
-    this->setCursor(x + 30, y + 1);
-    this->print("200");
-    this->setCursor(x + 30, y + 62);
-    this->print("100");
-    this->setCursor(x + 30, y + 82);
-    this->print("200");
-    ix = int(strom * 0.2);
-    if (ix > 40) {
-      ix = 40;
-    }
-    if (laden) {
-      this->fillRect(x, y + 3, 10, 85, ST7735_WHITE);
-      this->fillRect(x, y + 43 + ix, 10, 5, ST7735_GREEN);
-    }  else {
-      this->fillRect(x, y + 3, 10, 85, ST7735_WHITE);
-      this->fillRect(x, y + 43 - ix, 10, 5, ST7735_RED);
-    }
+       
   }
 
-  this->setTextColor(ST7735_WHITE, ST7735_BLACK);
-  this->setCursor(x - 5, 112);
-  this->print(amp);
-  this->print(" A");
 
+   else if (absCurrent <= 200)
+  {
+    //middle
+    this->setTextColor(ST7735_WHITE, ST7735_BLACK);
+    this->setCursor(x0+130 - 25, y0 + 5 + 27);
+    this->print("0A");
+  
+    //top
+    this->setTextColor(ST7735_WHITE, ST7735_BLACK);
+    this->setCursor(x0+130 - 31, y0 + 5);
+    this->print("-200A");
+  
+    //bottom
+    this->setTextColor(ST7735_WHITE, ST7735_BLACK);
+    this->setCursor(x0+130 - 31, y0 + 5 + 53);
+    this->print("+200A");
+  
+    // Boxes for Text #### LAST ROW
+
+    this->fillRect(x0+130, y0 + 5, 5, 60, ST7735_WHITE);  
+    // Indicator on amp meter which is GREEN for charging and RED for discharging
+    if (isCharging)
+    {
+      byte y1 = 30 + 6.67*absCurrent;
+      this->fillRect(x0+130, y0 + 5 + y1, 5, 3, ST7735_GREEN);  
+      
+      // clean rect for proper and plain overprinting 
+      this->setCursor(x0 + 98, y0 + 71);
+      this->setTextColor(ST7735_BLACK);
+      this->setTextColor(ST7735_GREEN, ST7735_BLACK);
+      this->print(amp,1);
+      this->print("A");
+    }
+      
+    else
+    {
+      byte y1 = 30 - 6.67*absCurrent;
+      this->fillRect(x0+130, y0 + 5 + y1, 5, 3, ST7735_RED);
+      
+      // clean rect for proper and plain overprinting 
+      this->setCursor(x0 + 98, y0 + 71);
+      this->setTextColor(ST7735_BLACK);
+      this->setTextColor(ST7735_RED, ST7735_BLACK);
+      this->print(amp,1);
+      this->print("A");
+    } 
+  }
 }
 
-void tft_van::drawAkku(int cap, int ti, int calib) {
 
-  int x = XAKK;
-  int y = YAKK;
+void tft_van::drawAkku(int cap) {
 
-  if (cap >= 90) {
-    this->fillRect(x + 4, y + 11, 24, 7, ST7735_GREEN);
-    this->fillRect(x + 4, y + 31, 27, 7, ST7735_GREEN);
-    this->fillRect(x + 4, y + 45, 27, 7, ST7735_GREEN);
-    this->fillRect(x + 4, y + 59, 27, 7, ST7735_GREEN);
-    this->fillRect(x + 4, y + 73, 27, 7, ST7735_GREEN);
 
-  } else if (cap >= 70) {
-    this->fillRect(x + 4, y + 17, 27, 7, ST7735_WHITE);
-    this->fillRect(x + 4, y + 31, 27, 7, ST7735_GREEN);
-    this->fillRect(x + 4, y + 45, 27, 7, ST7735_GREEN);
-    this->fillRect(x + 4, y + 59, 27, 7, ST7735_GREEN);
-    this->fillRect(x + 4, y + 73, 27, 7, ST7735_GREEN);
+  // SoC Text
+  this->setCursor(x0+7, y0+69);
+  this->setTextColor(ST7735_WHITE);
+  this->setTextColor(ST7735_BLUE, ST7735_WHITE);
+  this->print(round(cap));
+  this->print("%");
 
-  } else if (cap >= 50) {
-    this->fillRect(x + 4, y + 17, 27, 7, ST7735_WHITE);
-    this->fillRect(x + 4, y + 31, 27, 7, ST7735_WHITE);
-    this->fillRect(x + 4, y + 45, 27, 7, ST7735_YELLOW);
-    this->fillRect(x + 4, y + 59, 27, 7, ST7735_YELLOW);
-    this->fillRect(x + 4, y + 73, 27, 7, ST7735_YELLOW);
 
-  } else if (cap >= 30) {
-    this->fillRect(x + 4, y + 17, 27, 7, ST7735_WHITE);
-    this->fillRect(x + 4, y + 31, 27, 7, ST7735_WHITE);
-    this->fillRect(x + 4, y + 45, 27, 7, ST7735_WHITE);
-    this->fillRect(x + 4, y + 59, 27, 7, ST7735_YELLOW);
-    this->fillRect(x + 4, y + 73, 27, 7, ST7735_YELLOW);
-
-  } else {
-    this->fillRect(x + 4, y + 17, 27, 7, ST7735_WHITE);
-    this->fillRect(x + 4, y + 31, 27, 7, ST7735_WHITE);
-    this->fillRect(x + 4, y + 45, 27, 7, ST7735_WHITE);
-    this->fillRect(x + 4, y + 59, 27, 7, ST7735_WHITE);
-    this->fillRect(x + 4, y + 73, 27, 7, ST7735_RED);
+  if (cap >= 90) 
+  {
+    this->fillRect(x0 + 4, y0+19 , 26, 5, ST7735_GREEN);
+    this->fillRect(x0 + 4, y0+26, 26, 5, ST7735_GREEN);
+    this->fillRect(x0 + 4, y0+33, 26, 5, ST7735_GREEN);
+    this->fillRect(x0 + 4, y0+40, 26, 5, ST7735_GREEN);
+    this->fillRect(x0 + 4, y0+47, 26, 5, ST7735_GREEN);  
+    this->fillRect(x0 + 4, y0+54, 26, 5, ST7735_GREEN);  
+    this->fillRect(x0 + 4, y0+61, 26, 5, ST7735_GREEN);      
   }
+  else if (cap >= 70) 
+  {
+    this->fillRect(x0 + 4, y0+19 , 26, 5, ST7735_WHITE);
+    this->fillRect(x0 + 4, y0+26, 26, 5, ST7735_GREEN);
+    this->fillRect(x0 + 4, y0+33, 26, 5, ST7735_GREEN);
+    this->fillRect(x0 + 4, y0+40, 26, 5, ST7735_GREEN);
+    this->fillRect(x0 + 4, y0+47, 26, 5, ST7735_GREEN);  
+    this->fillRect(x0 + 4, y0+54, 26, 5, ST7735_GREEN);  
+    this->fillRect(x0 + 4, y0+61, 26, 5, ST7735_GREEN);      
+  }  
+  else if (cap >= 50) 
+  {
+    this->fillRect(x0 + 4, y0+19 , 26, 5, ST7735_WHITE);
+    this->fillRect(x0 + 4, y0+26, 26, 5, ST7735_WHITE);
+    this->fillRect(x0 + 4, y0+33, 26, 5, ST7735_GREEN);
+    this->fillRect(x0 + 4, y0+40, 26, 5, ST7735_GREEN);
+    this->fillRect(x0 + 4, y0+47, 26, 5, ST7735_GREEN);  
+    this->fillRect(x0 + 4, y0+54, 26, 5, ST7735_GREEN);  
+    this->fillRect(x0 + 4, y0+61, 26, 5, ST7735_GREEN);      
+  }  
+  else if (cap >= 40) 
+  {
+    this->fillRect(x0 + 4, y0+19 , 26, 5, ST7735_WHITE);
+    this->fillRect(x0 + 4, y0+26, 26, 5, ST7735_WHITE);
+    this->fillRect(x0 + 4, y0+33, 26, 5, ST7735_WHITE);
+    this->fillRect(x0 + 4, y0+40, 26, 5, ST7735_GREEN);
+    this->fillRect(x0 + 4, y0+47, 26, 5, ST7735_GREEN);  
+    this->fillRect(x0 + 4, y0+54, 26, 5, ST7735_GREEN);  
+    this->fillRect(x0 + 4, y0+61, 26, 5, ST7735_GREEN);      
+  }  
+  else if (cap >= 30) 
+  {
+    this->fillRect(x0 + 4, y0+19 , 26, 5, ST7735_WHITE);
+    this->fillRect(x0 + 4, y0+26, 26, 5, ST7735_WHITE);
+    this->fillRect(x0 + 4, y0+33, 26, 5, ST7735_WHITE);
+    this->fillRect(x0 + 4, y0+40, 26, 5, ST7735_WHITE);
+    this->fillRect(x0 + 4, y0+47, 26, 5, ST7735_GREEN);  
+    this->fillRect(x0 + 4, y0+54, 26, 5, ST7735_GREEN);  
+    this->fillRect(x0 + 4, y0+61, 26, 5, ST7735_GREEN);      
+  } 
+  else if (cap >= 20) 
+  {
+    this->fillRect(x0 + 4, y0+19 , 26, 5, ST7735_WHITE);
+    this->fillRect(x0 + 4, y0+26, 26, 5, ST7735_WHITE);
+    this->fillRect(x0 + 4, y0+33, 26, 5, ST7735_WHITE);
+    this->fillRect(x0 + 4, y0+40, 26, 5, ST7735_WHITE);
+    this->fillRect(x0 + 4, y0+47, 26, 5, ST7735_YELLOW);  
+    this->fillRect(x0 + 4, y0+54, 26, 5, ST7735_YELLOW);  
+    this->fillRect(x0 + 4, y0+61, 26, 5, ST7735_YELLOW);      
+  } 
+  else if (cap >= 10) 
+  {
+    this->fillRect(x0 + 4, y0+19 , 26, 5, ST7735_WHITE);
+    this->fillRect(x0 + 4, y0+26, 26, 5, ST7735_WHITE);
+    this->fillRect(x0 + 4, y0+33, 26, 5, ST7735_WHITE);
+    this->fillRect(x0 + 4, y0+40, 26, 5, ST7735_WHITE);
+    this->fillRect(x0 + 4, y0+47, 26, 5, ST7735_WHITE);  
+    this->fillRect(x0 + 4, y0+54, 26, 5, ST7735_RED);  
+    this->fillRect(x0 + 4, y0+61, 26, 5, ST7735_RED);      
+  } 
+  else if (cap >= 0) 
+  {
+    this->fillRect(x0 + 4, y0+19 , 26, 5, ST7735_WHITE);
+    this->fillRect(x0 + 4, y0+26, 26, 5, ST7735_WHITE);
+    this->fillRect(x0 + 4, y0+33, 26, 5, ST7735_WHITE);
+    this->fillRect(x0 + 4, y0+40, 26, 5, ST7735_WHITE);
+    this->fillRect(x0 + 4, y0+47, 26, 5, ST7735_WHITE);  
+    this->fillRect(x0 + 4, y0+54, 26, 5, ST7735_WHITE);  
+    this->fillRect(x0 + 4, y0+61, 26, 5, ST7735_RED);      
+  } 
 
-  this->setTextColor(ST7735_WHITE, ST7735_BLACK);
+ 
 
-  if (calib == 0) {
-    this->setTextColor(ST7735_RED, ST7735_BLACK);
-    this->setCursor(x + 6, y + 92);
-    this->print(cap, 1);
-    this->print(" %");
-  } else {
-    this->setTextColor(ST7735_WHITE, ST7735_BLACK);
-    this->setCursor(x + 6, y + 92);
-    this->print(cap, 1);
-    this->print(" %");
-  }
 
-  /* expected time - die passt aber noch nicht
-    setCursor(x + 4, 8);
-    print(ti);
-    print(" h    ");
-  */
 }
