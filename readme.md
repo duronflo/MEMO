@@ -4,7 +4,8 @@ Multivan Energy Monitor (MEMO) is an easy energy monitor which easily displays t
 
 ![alt text](https://raw.githubusercontent.com/duronflo/MEMO/master/Bilder/2020-01-01%2017_19_12-Window.png)
 ![alt text](https://raw.githubusercontent.com/duronflo/MEMO/master/Bilder/2020-01-01%2016_56_33-Window.png)
-![alt text](https://raw.githubusercontent.com/duronflo/MEMO/master/Bilder/IMG_20200102_171716_354.jpg)
+![alt text](https://raw.githubusercontent.com/duronflo/MEMO/master/Bilder/IMG_20200102_171716_354.jpg | width 200)
+![alt text](https://raw.githubusercontent.com/duronflo/MEMO/master/Bilder/IMG_20200222_160845_241.jpg | width 200)
 
 In this project a Arduino MEGA 2560 has been used. Furthermore a Macchina M2 car interface board was used in order to have a proper connection to car bord net (12V power supply circuit, 2x 12V LIN channel). The Arduino itslelf was connected to a small 1.8" tft display. The buttons of the former climatic module were also cabled to the arduino.
 
