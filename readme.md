@@ -4,18 +4,22 @@ Multivan Energy Monitor (MEMO) is an easy energy monitor which easily displays t
 
 ![alt text](https://raw.githubusercontent.com/duronflo/MEMO/master/Bilder/2020-01-01%2017_19_12-Window.png)
 
-Hella IBS Sensor IBS 200X - (Sensor2 type): 
+Hella IBS Sensor IBS 200X - (Sensor2 type):
+
 <img src="https://raw.githubusercontent.com/duronflo/MEMO/master/Bilder/2020-01-01%2016_56_33-Window.png" width="350">
-Arduino 2560 including Macchine M2 Interface board integrated in a box
+
+Arduino 2560 including Macchine M2 Interface board integrated in a box:
+
 <img src="https://raw.githubusercontent.com/duronflo/MEMO/master/Bilder/IMG_20200102_171716_354.jpg" width="350">
-Display integration inside a VW T4 Multivan2 (model year 2000)
+
+Display integration inside a VW T4 Multivan2 (model year 2000):
+
 <img src="https://raw.githubusercontent.com/duronflo/MEMO/master/Bilder/IMG_20200222_160845_241.jpg" width="350">
 
 
 In this project a Arduino MEGA 2560 has been used. Furthermore a Macchina M2 car interface board was used in order to have a proper connection to car bord net (12V power supply circuit, 2x 12V LIN channel). The Arduino itslelf was connected to a small 1.8" tft display. The buttons of the former climatic module were also cabled to the arduino.
 
-Attached you can see a rough system architecture drawing
-
+Attached you can see a rough system architecture drawing:
 
 <img src="https://raw.githubusercontent.com/duronflo/MEMO/master/Bilder/2020-03-01 18_37_19-Pinning_ARDUINO_MEGA 2650--M2 Interface - PowerPoint.png" width="550">
 
